@@ -19,6 +19,7 @@ from grow.moisture import Moisture
 from grow.pump import Pump
 from grow.discord import Discord
 
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 FPS = 10
 

@@ -4,7 +4,7 @@ import json
 
 class Discord():
     #send meessage to discord channel
-    def send_to_discord(message):
+    def send_to_discord(self, message):
         # Set discord webhook env variable beforehand
         WEBHOOK_URL = os.getenv('DISCORD_WEBHOOK')
 
