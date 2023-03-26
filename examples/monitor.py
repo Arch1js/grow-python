@@ -17,6 +17,7 @@ import yaml
 from grow import Piezo
 from grow.moisture import Moisture
 from grow.pump import Pump
+from grow.discord import Discord
 
 
 FPS = 10
@@ -663,6 +664,8 @@ class Channel:
         self.sensor.set_wet_point(wet_point)
         self.sensor.set_dry_point(dry_point)
 
+        self.discord = Discord()
+
     @property
     def enabled(self):
         return self._enabled
@@ -765,12 +768,16 @@ Dry point: {dry_point}
         sat = self.sensor.saturation
         if sat < self.water_level:
             if self.water():
+                self.discord.send_to_discord('I just got a sip of water!')
+
                 logging.info(
                     "Watering Channel: {} - rate {:.2f} for {:.2f}sec".format(
                         self.channel, self.pump_speed, self.pump_time
                     )
                 )
         if sat < self.warn_level:
+            self.discord.send_to_discord('I am getting thirsty!')
+
             if not self.alarm:
                 logging.warning(
                     "Alarm on Channel: {} - saturation is {:.2f}% (warn level {:.2f}%)".format(
